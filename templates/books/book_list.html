@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %} Books {% endblock %}
+{% block content %}
+<div class="row mt-4 mx-2">
+    {% for book in books %}
+    <div class="col-sm-3 mb-4">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ book.photo.url }}" class="card-img-top" alt="{{ book.title }}">
+            <div class="card-body">
+                <h5 class="card-title mb-2">{{ book.title }}</h5>
+                <p class="date mb-1 text-muted">
+                    Published: {{book.publish}}
+                </p>
+                <p class="card-text"> {{ book.description | truncatewords:10 }} </p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Author: </strong>{{ book.author }}</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Book Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
