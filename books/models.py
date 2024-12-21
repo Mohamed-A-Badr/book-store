@@ -28,4 +28,4 @@ class Book(models.Model):
     def save(self, *args, **kwargs):
         if self.slug:
             self.slug = slugify(self.title)
-        super().save(*args, **kwargs)
+        super(Book, self).save(*args, **kwargs)
