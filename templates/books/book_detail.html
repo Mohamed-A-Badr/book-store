@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %} {{ book.title }} {% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="{{ book.photo.url }}" class="img-fluid" alt="{{ book.title }}">
+        </div>
+        <div class="col-md-8">
+            <h2>{{ book.title }}</h2>
+            <p><strong>Author:</strong> {{ book.author }}</p>
+            <p><strong>Published:</strong> {{ book.publish }}</p>
+            <p>{{ book.description }}</p>
+            <a href="{% url 'books:book_list' %}" class="btn btn-primary">Back to Books</a>
+            <a href="#" class="btn btn-secondary">Edit Book</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
