@@ -43,3 +43,24 @@ def book_create(request):
         "books/book_create.html",
         {"form": form},
     )
+
+
+def book_edit(request, book_slug):
+    book = get_object_or_404(Book, slug=book_slug)
+    form = BookForm(instance=book)
+    if request.method == "POST":
+        form = BookForm(request.POST, request.FILES, instance=book)
+        if form.is_valid():
+            cd = form.cleaned_data
+
+            new_book = form.save(commit=False)
+            new_book.author = request.user
+            new_book.slug = slugify(cd["title"])
+
+            new_book.save()
+            return redirect("books:book_detail", book_slug=new_book.slug)
+    return render(
+        request,
+        "books/book_edit.html",
+        {"form": form},
+    )
