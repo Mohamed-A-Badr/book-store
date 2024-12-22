@@ -62,5 +62,20 @@ def book_edit(request, book_slug):
     return render(
         request,
         "books/book_edit.html",
-        {"form": form},
+        {
+            "form": form,
+            "book": book,
+        },
+    )
+
+
+def book_delete(request, book_slug):
+    book = get_object_or_404(Book, slug=book_slug)
+    if request.method == "POST":
+        book.delete()
+        return redirect("books:book_list")
+    return render(
+        request,
+        "books/book_delete_confirm.html",
+        {"book": book},
     )

@@ -13,6 +13,7 @@
             <p>{{ book.description }}</p>
             <a href="{% url 'books:book_list' %}" class="btn btn-primary">Back to Books</a>
             <a href="{% url 'books:book_edit' book.slug %}" class="btn btn-secondary">Edit Book</a>
+            <a href="{% url 'books:book_delete' book.slug %}" class="btn btn-danger">Delete Book</a>
         </div>
     </div>
 </div>
