@@ -48,3 +48,12 @@ def login_view(request):
             "error": error_message,
         },
     )
+
+
+def logout_view(request):
+    if request.method == "POST":
+        logout(request)
+
+        return redirect("login")
+    else:
+        return render(request, "accounts/logout.html")

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %} Logout {% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2>Logout</h2>
+            <p>Are you sure you want to logout?</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Logout</button>
+                <a href="{% url 'books:book_list' %}" class="btn btn-primary">Home</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

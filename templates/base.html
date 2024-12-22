@@ -15,13 +15,12 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
-        <!-- Container wrapper -->
         <div class="container-fluid">
             <!-- Toggle button -->
-            <button data-mdb-collapse-init class="navbar-toggler" type="button"
-                data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
+                <span class="navbar-toggler-icon"></span>
             </button>
 
             <!-- Collapsible wrapper -->
@@ -36,21 +35,43 @@
                         <a class="nav-link" href="{% url 'books:book_list' %}">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">My Profile</a>
+                        <a class="nav-link" href="#">Wishlist</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Liked Photo</a>
                     </li>
                 </ul>
-                <!-- Left links -->
             </div>
-            <!-- Collapsible wrapper -->
-            <!--Create a button to the right side of the navbar-->
+
+            {% if request.user.is_authenticated %}
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ request.user }}
+                        </a>
+                        <!-- Add the dropdown-menu-end class -->
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'books:book_create' %}">Add Book</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            {% else %}
             <div class="d-flex align-items-center">
-                <a class="btn btn-primary" href="{% url 'books:book_create' %}">Add Book</a>
+                <a class="btn btn-primary" href="{% url 'login' %}">Sign in</a>
             </div>
+            {% endif %}
+        </div>
     </nav>
     <!-- Navbar -->
+
     {% block content %}{% endblock %}
 </body>
 
