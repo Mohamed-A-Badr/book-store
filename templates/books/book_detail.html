@@ -12,8 +12,12 @@
             <p><strong>Published:</strong> {{ book.publish }}</p>
             <p>{{ book.description }}</p>
             <a href="{% url 'books:book_list' %}" class="btn btn-primary">Back to Books</a>
+            {% if request.user.is_authenticated and request.user == book.author %}
             <a href="{% url 'books:book_edit' book.slug %}" class="btn btn-secondary">Edit Book</a>
             <a href="{% url 'books:book_delete' book.slug %}" class="btn btn-danger">Delete Book</a>
+            {% endif %}
+            <a href="#" class="btn btn-warning">Wishlist</a>
+            <a href="#" class="btn btn-success">Like</a>
         </div>
     </div>
 </div>

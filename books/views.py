@@ -4,6 +4,7 @@ from django.views.generic import ListView
 from .models import Book
 from .forms import BookForm
 from django.utils.text import slugify
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -23,6 +24,7 @@ def book_detail(request, book_slug):
     )
 
 
+@login_required
 def book_create(request):
     form = BookForm()
     if request.method == "POST":
@@ -45,6 +47,7 @@ def book_create(request):
     )
 
 
+@login_required
 def book_edit(request, book_slug):
     book = get_object_or_404(Book, slug=book_slug)
     form = BookForm(instance=book)
@@ -69,6 +72,7 @@ def book_edit(request, book_slug):
     )
 
 
+@login_required
 def book_delete(request, book_slug):
     book = get_object_or_404(Book, slug=book_slug)
     if request.method == "POST":
