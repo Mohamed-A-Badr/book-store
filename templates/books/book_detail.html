@@ -10,14 +10,43 @@
             <h2>{{ book.title }}</h2>
             <p><strong>Author:</strong> {{ book.author }}</p>
             <p><strong>Published:</strong> {{ book.publish }}</p>
+            <p><strong>Number of Likes:</strong> {{ num_of_likes }}</p>
+            <p><strong>Number of Wishlists:</strong> {{ num_of_wishlist }}</p>
             <p>{{ book.description }}</p>
             <a href="{% url 'books:book_list' %}" class="btn btn-primary">Back to Books</a>
             {% if request.user.is_authenticated and request.user == book.author %}
             <a href="{% url 'books:book_edit' book.slug %}" class="btn btn-secondary">Edit Book</a>
             <a href="{% url 'books:book_delete' book.slug %}" class="btn btn-danger">Delete Book</a>
             {% endif %}
-            <a href="#" class="btn btn-warning">Wishlist</a>
-            <a href="#" class="btn btn-success">Like</a>
+            {% if request.user.is_authenticated %}
+            <div class="col-md-4 mt-2">
+                <form action="" method="post">
+                    {% csrf_token %}
+
+                    <!-- Wishlist Button -->
+                    {% if is_in_wishlist %}
+                    <button type="submit" name="wishlist" class="btn btn-outline-warning">
+                        Remove from Wishlist
+                    </button>
+                    {% else %}
+                    <button type="submit" name="wishlist" class="btn btn-warning">
+                        Add to Wishlist
+                    </button>
+                    {% endif %}
+
+                    <!-- Like Button -->
+                    {% if is_liked %}
+                    <button type="submit" name="like" class="btn btn-outline-secondary rounded-pill">
+                        Unlike
+                    </button>
+                    {% else %}
+                    <button type="submit" name="like" class="btn btn-success rounded-pill">
+                        Like
+                    </button>
+                    {% endif %}
+                </form>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

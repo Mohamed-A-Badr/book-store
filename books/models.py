@@ -18,6 +18,17 @@ class Book(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    users_like = models.ManyToManyField(
+        get_user_model(),
+        blank=True,
+        related_name="books_liked",
+    )
+    users_wishlist = models.ManyToManyField(
+        get_user_model(),
+        blank=True,
+        related_name="books_wished",
+    )
+
     class Meta:
         indexes = [models.Index(fields=["isbn", "-publish"])]
         ordering = ["-publish"]

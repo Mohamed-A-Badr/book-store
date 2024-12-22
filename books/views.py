@@ -16,11 +16,32 @@ class BookListView(ListView):
 
 def book_detail(request, book_slug):
     book = get_object_or_404(Book, slug=book_slug)
+    is_liked = book.users_like.filter(id=request.user.id).exists()
+    is_in_wishlist = book.users_wishlist.filter(id=request.user.id).exists()
 
+    if request.method == "POST":
+        if "like" in request.POST:
+            if is_liked:
+                book.users_like.remove(request.user)
+            else:
+                book.users_like.add(request.user)
+            return redirect("books:book_detail", book_slug=book.slug)
+        elif "wishlist" in request.POST:
+            if is_in_wishlist:
+                book.users_wishlist.remove(request.user)
+            else:
+                book.users_wishlist.add(request.user)
+            return redirect("books:book_detail", book_slug=book.slug)
     return render(
         request,
         "books/book_detail.html",
-        {"book": book},
+        {
+            "book": book,
+            "is_liked": is_liked,
+            "is_in_wishlist": is_in_wishlist,
+            "num_of_likes": book.users_like.count(),
+            "num_of_wishlist": book.users_wishlist.count(),
+        },
     )
 
 

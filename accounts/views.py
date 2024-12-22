@@ -54,6 +54,6 @@ def logout_view(request):
     if request.method == "POST":
         logout(request)
 
-        return redirect("login")
+        return redirect("books:book_list")
     else:
         return render(request, "accounts/logout.html")
