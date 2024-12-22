@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
-from .forms import RegisterForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import RegisterForm, ProfileForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -57,3 +58,34 @@ def logout_view(request):
         return redirect("books:book_list")
     else:
         return render(request, "accounts/logout.html")
+
+
+@login_required
+def profile_view(request):
+    user = get_object_or_404(User, id=request.user.id)
+
+    return render(
+        request,
+        "accounts/profile.html",
+        {
+            "user": user,
+        },
+    )
+
+
+@login_required
+def edit_profile_view(request):
+    user = get_object_or_404(User, id=request.user.id)
+    form = ProfileForm(instance=user)
+    if request.method == "POST":
+        form = ProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect("profile")
+    return render(
+        request,
+        "accounts/profile_edit.html",
+        {
+            "form": form,
+        },
+    )
